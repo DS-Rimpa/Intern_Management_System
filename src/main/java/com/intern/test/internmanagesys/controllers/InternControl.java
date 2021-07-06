@@ -10,28 +10,37 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.List;
 
-
+@RequestMapping("/api/v1")
 @RestController
 public class InternControl {
 
-    private InternService internService;
-
-    @Autowired
-    public void setService(InternService internService) {
+    public InternControl(InternService internService) {
         this.internService = internService;
     }
 
+    private InternService internService;
 
-    @PostMapping("/api/v1/intern")
+
+    @PostMapping("/intern")
     public ResponseEntity saveInterns(@Valid @RequestBody List<CreateInternRequest> internEntries){
         internService.addInterns(internEntries);
         return ResponseEntity.ok("Successfully created");
 
     }
-
-    @GetMapping("/api/v1/internFindAll")
+    @GetMapping("/internFindAll")
     public ResponseEntity<List<InternEntity>> getAllInterns() {
         return ResponseEntity.ok(internService.getAllInterns());
     }
+    @GetMapping("/{internId}")
+    public ResponseEntity<InternEntity> getInternById(@PathVariable Long id){
+
+        return ResponseEntity.ok(internService.getInternById(id));
+    }
+    @GetMapping("/internByName/{name}")
+    public ResponseEntity<InternEntity> getInternByName(@PathVariable String name){
+
+        return ResponseEntity.ok(internService.getInternByName(name));
+    }
+
 
 }
