@@ -14,14 +14,14 @@ import javax.validation.constraints.Size;
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name="Project")
+@Table(name="project")
 public class ProjectEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long projectId;
+    private Long projectId;
 
     @Column(length = 50)
-   // @NotEmpty(message = "{validation.designation.NotEmpty}")
+    @NotEmpty(message = "{validation.designation.NotEmpty}")
     @Size(min=2,max=30,message = "{validation.designation.Size}")
     private String projectName;
 }

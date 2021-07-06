@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class CreateDesignation {
+public class CreateDesignationRequest {
     private String designationType;
 
 }

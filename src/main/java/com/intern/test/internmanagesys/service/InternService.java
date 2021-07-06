@@ -3,13 +3,14 @@ package com.intern.test.internmanagesys.service;
 import com.intern.test.internmanagesys.entity.InternEntity;
 import com.intern.test.internmanagesys.entity.StatusType;
 import com.intern.test.internmanagesys.models.CreateInternRequest;
+import com.intern.test.internmanagesys.models.InternUpdateRequest;
 import com.intern.test.internmanagesys.repository.InternRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @Service
 public class InternService {
@@ -29,17 +30,44 @@ public class InternService {
                 .name(intern.getName())
                 .address(intern.getAddress())
                 .contact(intern.getContact())
+                .postalCode(intern.getPostalCode())
                 .status(StatusType.INACTIVE)
                 .build()).collect(Collectors.toList());
         return internRepository.saveAll(collect);
 
     }
-
     public List<InternEntity> getAllInterns()
     {
         return internRepository.findAll();
     }
 
+    public InternEntity getInternById(Long id){
+        Optional<InternEntity> internOptional = internRepository.findById(id);
+        return internOptional.orElseGet(InternEntity::new);
+    }
+    public InternEntity getInternByName(String name){
+        Optional<InternEntity> internOptional = internRepository.findByName(name);
+        return internOptional.orElseGet(InternEntity::new);
+    }
 
+    public InternEntity updateIntern(InternUpdateRequest internUpdateRequest, Long id){
+
+        Optional<InternEntity> byId = internRepository.findById(id);
+        InternEntity internEntity = byId.get();
+
+        internEntity.setName(internUpdateRequest.getName());
+        internEntity.setContact(internUpdateRequest.getContact());
+        internEntity.setAddress(internUpdateRequest.getAddress());
+        internEntity.setPostalCode(internUpdateRequest.getPostalCode());
+        return internRepository.save(internEntity);
+    }
+    public String deleteIntern(Long id){
+        internRepository.deleteById(id);
+        return "Intern details deleted"+id;
+    }
+    public String deleteInterns(){
+        internRepository.deleteAll();
+        return "All intern details deleted";
+    }
 
 }
