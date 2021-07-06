@@ -23,4 +23,11 @@ public class TaskEntity {
    // @NotEmpty(message = "{validation.taskDescription.NotEmpty}")
     @Size(min=2,max=300,message = "{validation.taskDescription.Size}")
     private String taskDescription;
+
+    @OneToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL,mappedBy = "taskEntity")
+    private TaskAllotmentEntity taskAllotmentEntity;
+
+    @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    @JoinColumn(name = "project_id")
+    private ProjectEntity projectEntity;
 }

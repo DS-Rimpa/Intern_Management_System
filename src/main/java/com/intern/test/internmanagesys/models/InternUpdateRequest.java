@@ -8,6 +8,7 @@ import lombok.*;
 @NoArgsConstructor
 @ToString
 @Builder
+@Data
 public class InternUpdateRequest {
 
     private String name;
@@ -17,4 +18,6 @@ public class InternUpdateRequest {
     private String address;
 
     private String postalCode;
+
+    private Float salary;
 }

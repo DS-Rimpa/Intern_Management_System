@@ -12,12 +12,10 @@ import java.util.Date;
 @ToString
 @Builder
 @Data
-public class CreateTaskAllotmentRequest {
+public class TaskAllotUpdateRequest {
     private String feedback;
     private Byte ranking;
     private TaskStatus taskStatus;
-    private Date startDate;
     private Date endDate;
-
 
 }

@@ -31,6 +31,7 @@ public class InternService {
                 .address(intern.getAddress())
                 .contact(intern.getContact())
                 .postalCode(intern.getPostalCode())
+                .salary(intern.getSalary())
                 .status(StatusType.INACTIVE)
                 .build()).collect(Collectors.toList());
         return internRepository.saveAll(collect);
@@ -58,6 +59,7 @@ public class InternService {
         internEntity.setName(internUpdateRequest.getName());
         internEntity.setContact(internUpdateRequest.getContact());
         internEntity.setAddress(internUpdateRequest.getAddress());
+        internEntity.setSalary(internUpdateRequest.getSalary());
         internEntity.setPostalCode(internUpdateRequest.getPostalCode());
         return internRepository.save(internEntity);
     }
@@ -67,7 +69,9 @@ public class InternService {
     }
     public String deleteInterns(){
         internRepository.deleteAll();
-        return "All intern details deleted";
+        return "All intern details are deleted";
     }
+
+
 
 }

@@ -14,6 +14,7 @@ import javax.validation.constraints.Positive;
 import javax.validation.constraints.Size;
 import java.time.LocalDate;
 import java.util.Date;
+import java.util.List;
 
 @Getter
 @Setter
@@ -31,6 +32,8 @@ public class InternEntity {
     @Column(length = 50)
     @NotEmpty(message = "CANNOT BE NULL")
     private String name;
+
+    private Float salary;
 
 
     @Column(name = "contact", nullable = false)
@@ -58,11 +61,15 @@ public class InternEntity {
     @JsonFormat(pattern = "yyyy-MM-dd")
     private Date endDate;
 
+
     @Enumerated(EnumType.STRING)
     private StatusType status;
 
-    @OneToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     @JoinColumn(name = "designation_id")
     private DesignationEntity designationEntity;
+
+    @OneToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL,mappedBy = "internEntity")
+    private List<TaskAllotmentEntity> taskAllotmentEntity;
 
 }

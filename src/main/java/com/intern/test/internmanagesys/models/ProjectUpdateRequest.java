@@ -1,8 +1,6 @@
 package com.intern.test.internmanagesys.models;
 
-
 import lombok.*;
-import org.springframework.web.bind.annotation.ModelAttribute;
 
 @Getter
 @Setter
@@ -11,7 +9,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 @ToString
 @Builder
 @Data
-public class CreateDesignationRequest {
-    private String designationType;
+public class ProjectUpdateRequest {
+    private String projectName;
 
 }

@@ -30,4 +30,16 @@ public class TaskAllotmentEntity {
 
     private Date startDate;
     private Date endDate;
+
+    @Enumerated(EnumType.STRING)
+    private TaskStatus taskStatus;
+
+
+    @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    @JoinColumn(name = "intern_id")
+    private InternEntity internEntity;
+
+    @OneToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    @JoinColumn(name = "task_id")
+    private TaskEntity taskEntity;
 }

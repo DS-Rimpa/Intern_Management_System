@@ -22,5 +22,8 @@ public class CreateInternRequest {
 
     private String postalCode;
 
+    private Float salary;
+
+
 
 }
