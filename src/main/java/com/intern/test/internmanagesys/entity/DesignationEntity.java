@@ -9,6 +9,8 @@ import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 @Getter
@@ -28,5 +30,5 @@ public class DesignationEntity {
     private String designationType;
 
     @OneToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL,mappedBy = "designationEntity")
-    private Set<InternEntity> internEntity;
+    private List<InternEntity> internEntity= new ArrayList<>();
 }

@@ -13,6 +13,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 import javax.validation.constraints.Size;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -49,7 +50,7 @@ public class InternEntity {
     @NotNull(message = "{validation.postalCode.NotNull}")
     private String postalCode;
 
-    @Column(name = "start_date", nullable = true)
+    @Column(name = "start_date")
 //    @CreationTimestamp
 //    @CreatedDate
     @JsonFormat(pattern = "yyyy-MM-dd")
@@ -70,6 +71,6 @@ public class InternEntity {
     private DesignationEntity designationEntity;
 
     @OneToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL,mappedBy = "internEntity")
-    private List<TaskAllotmentEntity> taskAllotmentEntity;
+    private List<TaskAllotmentEntity> taskAllotmentEntity= new ArrayList<>();
 
 }
