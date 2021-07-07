@@ -1,34 +1,45 @@
 package com.intern.test.internmanagesys.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.*;
+import java.util.Date;
 
 @Getter
 @Setter
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name="TaskAllotment")
+@Builder
+@ToString
+@Table(name="task_allotment")
 public class TaskAllotmentEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long taskAllotId;
+    private Long taskAllotId;
 
     @Column(length = 50)
-   // @NotEmpty(message = "{validation.feedback.NotEmpty}")
-    @Size(min=2,max=30,message = "{validation.feedback.Size}")
+    @Size(min=2,max=300,message = "{validation.feedback.Size}")
     private String feedback;
 
-   // @NotEmpty(message = "{validation.ranking.NotEmpty}")
-    @Size(min=1,max=10,message = "{validation.ranking.Size}")
-    private int ranking;
+    @NotNull(message = "{validation.ranking.NotEmpty}")
+    @Min(value = 1,message = "{validation.ranking.Size}")
+    @Max(value=10,message = "{validation.ranking.Size}")
+    private Byte ranking;
 
-    private String startDate;
-    private String endDate;
+    private Date startDate;
+    private Date endDate;
+
+    @Enumerated(EnumType.STRING)
+    private TaskStatus taskStatus;
+
+
+    @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    @JoinColumn(name = "intern_id")
+    private InternEntity internEntity;
+
+    @OneToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    @JoinColumn(name = "task_id")
+    private TaskEntity taskEntity;
 }

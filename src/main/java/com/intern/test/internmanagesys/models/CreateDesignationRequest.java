@@ -1,17 +1,17 @@
 package com.intern.test.internmanagesys.models;
 
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@ToString
 @Builder
-public class CreateDesignation {
+@Data
+public class CreateDesignationRequest {
     private String designationType;
 
 }

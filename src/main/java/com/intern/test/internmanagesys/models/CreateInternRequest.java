@@ -16,11 +16,14 @@ public class CreateInternRequest {
 
     private String name;
 
-    private long contact;
+    private Long contact;
 
     private String address;
 
-    private long postalCode;
+    private String postalCode;
+
+    private Float salary;
+
 
 
 }

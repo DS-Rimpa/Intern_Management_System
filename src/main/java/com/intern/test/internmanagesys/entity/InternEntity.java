@@ -14,6 +14,7 @@ import javax.validation.constraints.Positive;
 import javax.validation.constraints.Size;
 import java.time.LocalDate;
 import java.util.Date;
+import java.util.List;
 
 @Getter
 @Setter
@@ -22,21 +23,23 @@ import java.util.Date;
 @NoArgsConstructor
 @Builder
 @ToString
-@Table(name="Intern")
+@Table(name="intern")
 public class InternEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
 
     @Column(length = 50)
     @NotEmpty(message = "CANNOT BE NULL")
     private String name;
 
+    private Float salary;
+
 
     @Column(name = "contact", nullable = false)
     @NotNull(message = "CANNOT BE NULL")
     @Positive(message = "POSITIVE ACCEPTED")
-    private long contact;
+    private Long contact;
 
     @Column(name = "address", nullable = false)
     @NotNull(message = "{validation.address.NotNull}")
@@ -44,7 +47,7 @@ public class InternEntity {
 
     @Column(name = "postal_code", nullable = false)
     @NotNull(message = "{validation.postalCode.NotNull}")
-    private long postalCode;
+    private String postalCode;
 
     @Column(name = "start_date", nullable = true)
 //    @CreationTimestamp
@@ -58,11 +61,15 @@ public class InternEntity {
     @JsonFormat(pattern = "yyyy-MM-dd")
     private Date endDate;
 
+
     @Enumerated(EnumType.STRING)
     private StatusType status;
 
-    @OneToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
-    @JoinColumn(name = "designated_id")
+    @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    @JoinColumn(name = "designation_id")
     private DesignationEntity designationEntity;
+
+    @OneToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL,mappedBy = "internEntity")
+    private List<TaskAllotmentEntity> taskAllotmentEntity;
 
 }
