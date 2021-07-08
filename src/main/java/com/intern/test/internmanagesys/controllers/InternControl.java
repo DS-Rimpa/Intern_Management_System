@@ -26,8 +26,8 @@ public class InternControl {
 
     @PostMapping()
     @ResponseStatus(HttpStatus.CREATED)
-    public InternEntity saveInterns(@Valid @RequestBody List<CreateInternRequest> internEntries){
-       return (InternEntity) internService.addInterns(internEntries);
+    public List<InternEntity> saveInterns(@Valid @RequestBody List<CreateInternRequest> internEntries){
+       return internService.addInterns(internEntries);
     }
 
     @GetMapping()
@@ -36,25 +36,25 @@ public class InternControl {
         return internService.getAllInterns();
     }
     @GetMapping("/{id}")
-    public InternEntity getInternById(@PathVariable Long id){
+    public InternEntity internById(@PathVariable Long id){
 
         return internService.getInternById(id);
     }
     @GetMapping("/{name}")
     @ResponseStatus(HttpStatus.OK)
-    public InternEntity getInternByName(@PathVariable String name){
+    public InternEntity getByName(@PathVariable String name){
 
         return internService.getInternByName(name);
     }
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public InternEntity deleteIntern(@PathVariable Long id){
+    public InternEntity delete(@PathVariable Long id){
         return internService.deleteIntern(id);
     }
 
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public InternEntity updateIntern(@RequestBody InternUpdateRequest internUpdateRequest, @PathVariable Long id){
+    public InternEntity change(@RequestBody InternUpdateRequest internUpdateRequest, @PathVariable Long id){
 
         return internService.updateIntern(internUpdateRequest,id);
     }

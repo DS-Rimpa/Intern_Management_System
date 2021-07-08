@@ -44,9 +44,9 @@ public class TaskAllotmentService {
     }
 
 
-    public String deleteTaskAllotments(){
+    public TaskAllotmentEntity deleteTaskAllotments(){
         taskAllotmentRepository.deleteAll();
-        return "All task allotments are deleted";
+        return null;
     }
     public TaskAllotmentEntity updateTaskAllot(TaskAllotUpdateRequest taskRequest, Long taskAllotId) {
 

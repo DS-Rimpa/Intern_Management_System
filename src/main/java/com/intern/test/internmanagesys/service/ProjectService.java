@@ -24,10 +24,10 @@ public class ProjectService {
         this.projectRepository = projectRepository;
     }
 
-    public void addProjects(CreateProjectRequest createProjectRequest) {
+    public ProjectEntity addProjects(CreateProjectRequest createProjectRequest) {
         ProjectEntity projectEntity=new ProjectEntity();
         projectEntity.setProjectName(createProjectRequest.getProjectName());
-        projectRepository.save(projectEntity);
+        return projectRepository.save(projectEntity);
     }
 
     public List<ProjectEntity> getAllProjects()
@@ -35,9 +35,9 @@ public class ProjectService {
         return projectRepository.findAll();
     }
 
-    public String deleteProjects(){
+    public ProjectEntity deleteProjects(){
         projectRepository.deleteAll();
-        return "All designations deleted";
+        return null;
     }
     public ProjectEntity updateProject(ProjectUpdateRequest projectRequest, Long projectId) {
 

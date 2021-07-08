@@ -1,13 +1,10 @@
 package com.intern.test.internmanagesys.controllers;
 
-import com.intern.test.internmanagesys.entity.ProjectEntity;
 import com.intern.test.internmanagesys.entity.TaskAllotmentEntity;
-import com.intern.test.internmanagesys.models.CreateProjectRequest;
 import com.intern.test.internmanagesys.models.CreateTaskAllotmentRequest;
-import com.intern.test.internmanagesys.models.ProjectUpdateRequest;
 import com.intern.test.internmanagesys.models.TaskAllotUpdateRequest;
-import com.intern.test.internmanagesys.service.ProjectService;
 import com.intern.test.internmanagesys.service.TaskAllotmentService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,28 +21,29 @@ public class TaskAllotmentController {
     }
 
 
-    @PostMapping("/save")
-    public ResponseEntity<String> saveTaskAllotment(@Valid @RequestBody List<CreateTaskAllotmentRequest> createTaskAllotmentRequest)
+    @PostMapping()
+    @ResponseStatus(HttpStatus.CREATED)
+    public List<TaskAllotmentEntity> saveTaskAllotment(@Valid @RequestBody List<CreateTaskAllotmentRequest> createTaskAllotmentRequest)
     {
-        taskAllotmentService.addTaskAllotments(createTaskAllotmentRequest);
-        return ResponseEntity.ok("Successfully Created");
+        return taskAllotmentService.addTaskAllotments(createTaskAllotmentRequest);
 
     }
-    @GetMapping("/details")
-    public ResponseEntity<List<TaskAllotmentEntity>> getAllTaskAllotments() {
-        return ResponseEntity.ok(taskAllotmentService.getAllTaskDetails());
+    @GetMapping()
+    @ResponseStatus(HttpStatus.OK)
+    public List<TaskAllotmentEntity> getAllTaskAllotments() {
+        return taskAllotmentService.getAllTaskDetails();
     }
 
-
-
-    @DeleteMapping("/delete/all")
-    public String deleteAllTaskAllotments()
+    @DeleteMapping()
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public TaskAllotmentEntity deleteAllTaskAllotments()
     {
         taskAllotmentService.deleteTaskAllotments();
-        return "All tasks allotments deleted";
+        return null;
     }
 
-    @PutMapping("/update/{taskAllotId}")
+    @PutMapping("/{taskAllotId}")
+    @ResponseStatus(HttpStatus.OK)
     public TaskAllotmentEntity changeTasks(@RequestBody TaskAllotUpdateRequest allotUpdateRequest, @PathVariable Long taskAllotId){
 
         return taskAllotmentService.updateTaskAllot(allotUpdateRequest,taskAllotId);
