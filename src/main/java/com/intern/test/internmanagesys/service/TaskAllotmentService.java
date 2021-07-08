@@ -43,10 +43,6 @@ public class TaskAllotmentService {
         return taskAllotmentRepository.findAll();
     }
 
-    public List<TaskAllotmentEntity> getIncompleteTasks(){
-        return taskAllotmentRepository.findAllByTaskStatus("PENDING");
-    }
-
 
     public String deleteTaskAllotments(){
         taskAllotmentRepository.deleteAll();

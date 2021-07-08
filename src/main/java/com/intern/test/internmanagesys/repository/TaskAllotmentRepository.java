@@ -9,9 +9,18 @@ import java.util.List;
 
 @Repository
 public interface TaskAllotmentRepository extends JpaRepository<TaskAllotmentEntity,Long> {
-    @Query(value = "SELECT DISTINCT i.id,i.name from InternEntity i," +
-            "TaskAllotmentEntity ta where i.id=ta.taskAllotId and ta.taskStatus='PENDING'")
-    List<TaskAllotmentEntity> findAllByTaskStatus(String pending);
+
+    @Query(value = "SELECT DISTINCT i.id,i.name from InternEntity i where i.id in (SELECT i.id from " +
+            "TaskAllotmentEntity where taskStatus='PENDING')")
+    List<TaskAllotmentEntity> findAll();
+
+
+
+//    @Query(value = "SELECT DISTINCT i.id,i.name from InternEntity i where i.id in (SELECT i.id from " +
+//            "TaskAllotmentEntity t where t.taskStatus='COMPLETE') order by i.id ASC fetch first 10 rows only")
+//    List<TaskAllotmentEntity> findAll();
+
+
 
 
 

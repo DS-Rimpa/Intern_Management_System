@@ -35,10 +35,6 @@ public class TaskAllotmentController {
     public ResponseEntity<List<TaskAllotmentEntity>> getAllTaskAllotments() {
         return ResponseEntity.ok(taskAllotmentService.getAllTaskDetails());
     }
-    @GetMapping("/task/status")
-    public ResponseEntity<List<TaskAllotmentEntity>> getAllPendingTasks() {
-        return ResponseEntity.ok(taskAllotmentService.getIncompleteTasks());
-    }
 
 
 
