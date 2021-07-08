@@ -5,6 +5,7 @@ import com.intern.test.internmanagesys.models.CreateInternRequest;
 import com.intern.test.internmanagesys.models.InternUpdateRequest;
 import com.intern.test.internmanagesys.service.InternService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,42 +24,46 @@ public class InternControl {
     }
 
 
-    @PostMapping("/save")
-    public ResponseEntity saveInterns(@Valid @RequestBody List<CreateInternRequest> internEntries){
-        internService.addInterns(internEntries);
-        return ResponseEntity.ok("Successfully created");
-
+    @PostMapping()
+    @ResponseStatus(HttpStatus.CREATED)
+    public InternEntity saveInterns(@Valid @RequestBody List<CreateInternRequest> internEntries){
+       return (InternEntity) internService.addInterns(internEntries);
     }
 
-    @GetMapping("/findAll")
-    public ResponseEntity<List<InternEntity>> getAllInterns() {
-        return ResponseEntity.ok(internService.getAllInterns());
+    @GetMapping()
+    @ResponseStatus(HttpStatus.OK)
+    public List<InternEntity> getAllInterns() {
+        return internService.getAllInterns();
     }
-    @GetMapping("by/id/{id}")
-    public ResponseEntity<InternEntity> getInternById(@PathVariable Long id){
+    @GetMapping("/{id}")
+    public InternEntity getInternById(@PathVariable Long id){
 
-        return ResponseEntity.ok(internService.getInternById(id));
+        return internService.getInternById(id);
     }
-    @GetMapping("by/name/{name}")
-    public ResponseEntity<InternEntity> getInternByName(@PathVariable String name){
+    @GetMapping("/{name}")
+    @ResponseStatus(HttpStatus.OK)
+    public InternEntity getInternByName(@PathVariable String name){
 
-        return ResponseEntity.ok(internService.getInternByName(name));
+        return internService.getInternByName(name);
     }
-    @DeleteMapping("/deleteby/id/{id}")
-    public String deleteIntern(@PathVariable Long id){
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public InternEntity deleteIntern(@PathVariable Long id){
         return internService.deleteIntern(id);
     }
 
-    @PutMapping("/update/{id}")
+    @PutMapping("/{id}")
+    @ResponseStatus(HttpStatus.OK)
     public InternEntity updateIntern(@RequestBody InternUpdateRequest internUpdateRequest, @PathVariable Long id){
 
         return internService.updateIntern(internUpdateRequest,id);
     }
-    @DeleteMapping("/delete/all")
-    public String deleteAllInterns()
+    @DeleteMapping()
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public InternEntity deleteAllInterns()
     {
         internService.deleteInterns();
-        return "All interns are deleted";
+        return internService.deleteInterns();
     }
 
 }
