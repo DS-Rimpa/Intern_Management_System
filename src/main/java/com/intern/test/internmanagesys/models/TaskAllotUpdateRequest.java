@@ -3,6 +3,7 @@ package com.intern.test.internmanagesys.models;
 import com.intern.test.internmanagesys.entity.TaskStatus;
 import lombok.*;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 @Getter
@@ -16,6 +17,6 @@ public class TaskAllotUpdateRequest {
     private String feedback;
     private Byte ranking;
     private TaskStatus taskStatus;
-    private Date endDate;
+    private LocalDate endDate;
 
 }

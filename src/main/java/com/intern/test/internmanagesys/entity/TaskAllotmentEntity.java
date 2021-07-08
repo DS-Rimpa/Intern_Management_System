@@ -4,6 +4,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
+import java.time.LocalDate;
 import java.util.Date;
 
 @Getter
@@ -28,8 +29,8 @@ public class TaskAllotmentEntity {
     @Max(value=10,message = "{validation.ranking.Size}")
     private Byte ranking;
 
-    private Date startDate;
-    private Date endDate;
+    private LocalDate startDate;
+    private LocalDate endDate;
 
     @Enumerated(EnumType.STRING)
     private TaskStatus taskStatus;

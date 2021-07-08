@@ -63,13 +63,13 @@ public class InternService {
         internEntity.setPostalCode(internUpdateRequest.getPostalCode());
         return internRepository.save(internEntity);
     }
-    public String deleteIntern(Long id){
+    public InternEntity deleteIntern(Long id){
         internRepository.deleteById(id);
-        return "Intern details deleted"+id;
+        return null;
     }
-    public String deleteInterns(){
+    public InternEntity deleteInterns(){
         internRepository.deleteAll();
-        return "All intern details are deleted";
+        return null;
     }
 
 

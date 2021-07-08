@@ -10,6 +10,7 @@ import com.intern.test.internmanagesys.models.InternUpdateRequest;
 import com.intern.test.internmanagesys.models.ProjectUpdateRequest;
 import com.intern.test.internmanagesys.service.DesignationService;
 import com.intern.test.internmanagesys.service.ProjectService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,26 +26,28 @@ public class ProjectController {
 
     private ProjectService projectService;
 
+    @PostMapping()
+    @ResponseStatus(HttpStatus.CREATED)
 
-    @PostMapping("/save")
-    public ResponseEntity<String> saveProject(@Valid @RequestBody CreateProjectRequest createProjectRequest){
-        projectService.addProjects(createProjectRequest);
-        return ResponseEntity.ok("Successfully Created");
+    public ProjectEntity saveProject(@Valid @RequestBody CreateProjectRequest createProjectRequest){
+        return projectService.addProjects(createProjectRequest);
 
     }
-    @GetMapping("/all")
-    public ResponseEntity<List<ProjectEntity>> getAllInternsProject() {
-        return ResponseEntity.ok(projectService.getAllProjects());
+    @GetMapping()
+    @ResponseStatus(HttpStatus.OK)
+    public List<ProjectEntity> getAllInternsProject() {
+        return projectService.getAllProjects();
     }
-    @PutMapping("/update/{projectId}")
+    @PutMapping("/{projectId}")
+    @ResponseStatus(HttpStatus.OK)
     public ProjectEntity changeProject(@RequestBody ProjectUpdateRequest projectUpdateRequest, @PathVariable Long projectId){
 
         return projectService.updateProject(projectUpdateRequest,projectId);
     }
-    @DeleteMapping("/delete/all")
-    public String deleteInternsDesignation()
+    @DeleteMapping()
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public ProjectEntity deleteInternsDesignation()
     {
-        projectService.deleteProjects();
-        return "All projects deleted";
+       return projectService.deleteProjects();
     }
 }

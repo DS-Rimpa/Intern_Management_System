@@ -8,6 +8,7 @@ import com.intern.test.internmanagesys.models.ProjectUpdateRequest;
 import com.intern.test.internmanagesys.models.TaskUpdateRequest;
 import com.intern.test.internmanagesys.service.ProjectService;
 import com.intern.test.internmanagesys.service.TaskService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,24 +24,26 @@ public class TaskController {
 
     private TaskService taskService;
 
-    @PostMapping("/save")
-    public ResponseEntity<String> saveTask(@Valid @RequestBody CreateTaskRequest createTaskRequest) {
-        taskService.addTasks(createTaskRequest);
-        return ResponseEntity.ok("Successfully Created");
-
+    @PostMapping()
+    @ResponseStatus(HttpStatus.CREATED)
+    public TaskEntity saveTask(@Valid @RequestBody CreateTaskRequest createTaskRequest) {
+        return taskService.addTasks(createTaskRequest);
     }
 
-    @GetMapping("/details")
-    public ResponseEntity<List<TaskEntity>> getAllInternTasks() {
-        return ResponseEntity.ok(taskService.getAllInternTasks());
+    @GetMapping()
+    @ResponseStatus(HttpStatus.OK)
+    public List<TaskEntity> getAllInternTasks() {
+        return taskService.getAllInternTasks();
     }
 
-    @DeleteMapping("/delete/all")
-    public String deleteInternsTasks() {
+    @DeleteMapping()
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public TaskEntity deleteInternsTasks() {
         taskService.deleteTasks();
-        return "All tasks deleted";
+        return null;
     }
-    @PutMapping("/update/{taskId}")
+    @PutMapping("/{taskId}")
+    @ResponseStatus(HttpStatus.OK)
     public TaskEntity changeTask(@RequestBody TaskUpdateRequest taskUpdateRequest, @PathVariable Long taskId){
 
         return taskService.updateTask(taskUpdateRequest,taskId);

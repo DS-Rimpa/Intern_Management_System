@@ -23,10 +23,10 @@ public class TaskService {
         this.taskRepository = taskRepository;
     }
 
-    public void addTasks(CreateTaskRequest createTaskRequest) {
+    public TaskEntity addTasks(CreateTaskRequest createTaskRequest) {
         TaskEntity taskEntity=new TaskEntity();
         taskEntity.setTaskDescription(createTaskRequest.getTaskDescription());
-        taskRepository.save(taskEntity);
+        return taskRepository.save(taskEntity);
     }
 
     public List<TaskEntity> getAllInternTasks()
@@ -34,9 +34,9 @@ public class TaskService {
         return taskRepository.findAll();
     }
 
-    public String deleteTasks(){
+    public TaskEntity deleteTasks(){
         taskRepository.deleteAll();
-        return "All tasks are deleted";
+        return null;
     }
 
     public TaskEntity updateTask(TaskUpdateRequest taskUpdateRequest, Long taskId) {
