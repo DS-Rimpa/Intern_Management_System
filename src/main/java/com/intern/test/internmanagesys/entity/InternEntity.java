@@ -1,6 +1,6 @@
 package com.intern.test.internmanagesys.entity;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -23,7 +23,8 @@ import java.util.*;
 @NoArgsConstructor
 @Builder
 @ToString
-@Table(name="intern")
+//@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class,property = "id")
+@Table(name = "intern")
 public class InternEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -64,12 +65,13 @@ public class InternEntity {
 
     @Enumerated(EnumType.STRING)
     private StatusType status;
-
-    @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "designation_id")
+    @JsonBackReference
     private DesignationEntity designationEntity;
 
-    @OneToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL,mappedBy = "internEntity")
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "internEntity")
+    @JsonManagedReference
     private List<TaskAllotmentEntity> taskAllotmentEntity;
 
 }

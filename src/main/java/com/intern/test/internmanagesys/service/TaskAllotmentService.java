@@ -11,6 +11,7 @@ import com.intern.test.internmanagesys.models.TaskAllotUpdateRequest;
 import com.intern.test.internmanagesys.repository.InternRepository;
 import com.intern.test.internmanagesys.repository.TaskAllotmentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -25,6 +26,7 @@ public class TaskAllotmentService {
     public TaskAllotmentService(TaskAllotmentRepository taskAllotmentRepository) {
         this.taskAllotmentRepository = taskAllotmentRepository;
     }
+
     public List<TaskAllotmentEntity> addTaskAllotments(List<CreateTaskAllotmentRequest> requests) {
 
         List<TaskAllotmentEntity> collect = requests.stream().map(request -> TaskAllotmentEntity
@@ -38,19 +40,31 @@ public class TaskAllotmentService {
         return taskAllotmentRepository.saveAll(collect);
 
     }
-    public List<TaskAllotmentEntity> getAllTaskDetails()
-    {
+
+    public List<TaskAllotmentEntity> getTaskDetails() {
         return taskAllotmentRepository.findAll();
     }
 
-
-    public TaskAllotmentEntity deleteTaskAllotments(){
-        taskAllotmentRepository.deleteAll();
-        return null;
+    public List<TaskAllotmentEntity> getPendingTasks() {
+        return taskAllotmentRepository.findTaskAllotmentEntitiesByTaskStatusEquals("PENDING");
     }
-    public TaskAllotmentEntity updateTaskAllot(TaskAllotUpdateRequest taskRequest, Long taskAllotId) {
 
-        Optional<TaskAllotmentEntity> byId = taskAllotmentRepository.findById(taskAllotId);
+    public List<TaskAllotmentEntity> getTaskStatus() {
+        return taskAllotmentRepository.findTaskAllotmentEntityByTaskStatus();
+    }
+
+    public List<TaskAllotmentEntity> getAvgRanking() {
+        return taskAllotmentRepository.findTaskAllotmentEntityByRankingIsGreaterThanEqual();
+    }
+
+
+    public void deleteTaskAllotments() {
+        taskAllotmentRepository.deleteAll();
+    }
+
+    public TaskAllotmentEntity updateTaskAllot(TaskAllotUpdateRequest taskRequest, Long id) {
+
+        Optional<TaskAllotmentEntity> byId = taskAllotmentRepository.findById(id);
         TaskAllotmentEntity taskAllotmentEntity = byId.get();
         taskAllotmentEntity.setFeedback(taskRequest.getFeedback());
         taskAllotmentEntity.setRanking(taskRequest.getRanking());

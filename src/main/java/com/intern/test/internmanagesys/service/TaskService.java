@@ -24,24 +24,22 @@ public class TaskService {
     }
 
     public TaskEntity addTasks(CreateTaskRequest createTaskRequest) {
-        TaskEntity taskEntity=new TaskEntity();
+        TaskEntity taskEntity = new TaskEntity();
         taskEntity.setTaskDescription(createTaskRequest.getTaskDescription());
         return taskRepository.save(taskEntity);
     }
 
-    public List<TaskEntity> getAllInternTasks()
-    {
+    public List<TaskEntity> getAllInternTasks() {
         return taskRepository.findAll();
     }
 
-    public TaskEntity deleteTasks(){
+    public void deleteTasks() {
         taskRepository.deleteAll();
-        return null;
     }
 
-    public TaskEntity updateTask(TaskUpdateRequest taskUpdateRequest, Long taskId) {
+    public TaskEntity updateTask(TaskUpdateRequest taskUpdateRequest, Long id) {
 
-        Optional<TaskEntity> byId = taskRepository.findById(taskId);
+        Optional<TaskEntity> byId = taskRepository.findById(id);
         TaskEntity taskEntity = byId.get();
         taskEntity.setTaskDescription(taskUpdateRequest.getTaskDescription());
         return taskRepository.save(taskEntity);

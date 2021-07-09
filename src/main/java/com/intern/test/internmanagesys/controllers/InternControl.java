@@ -30,7 +30,7 @@ public class InternControl {
        return internService.addInterns(internEntries);
     }
 
-    @GetMapping()
+    @GetMapping
     @ResponseStatus(HttpStatus.OK)
     public List<InternEntity> getAllInterns() {
         return internService.getAllInterns();
@@ -40,16 +40,11 @@ public class InternControl {
 
         return internService.getInternById(id);
     }
-    @GetMapping("/{name}")
-    @ResponseStatus(HttpStatus.OK)
-    public InternEntity getByName(@PathVariable String name){
 
-        return internService.getInternByName(name);
-    }
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public InternEntity delete(@PathVariable Long id){
-        return internService.deleteIntern(id);
+    public void delete(@PathVariable Long id){
+        internService.deleteIntern(id);
     }
 
     @PutMapping("/{id}")
@@ -58,12 +53,11 @@ public class InternControl {
 
         return internService.updateIntern(internUpdateRequest,id);
     }
-    @DeleteMapping()
+    @DeleteMapping
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public InternEntity deleteAllInterns()
+    public void deleteAllInterns()
     {
         internService.deleteInterns();
-        return internService.deleteInterns();
     }
 
 }

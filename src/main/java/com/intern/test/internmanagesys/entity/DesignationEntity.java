@@ -1,9 +1,10 @@
 package com.intern.test.internmanagesys.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerator;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import lombok.*;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -17,17 +18,20 @@ import java.util.*;
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name="designation")
+@Builder
+@ToString
+//@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class,property = "id")
+@Table(name = "designation")
 public class DesignationEntity {
     @Id
     @Column(name = "designation_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long designationId;
+    private Long id;
 
-    @Column(name = "designation_type",length = 50)
+    @Column(name = "designation_type", length = 50)
     @NotEmpty(message = "Cannot be empty")
     private String designationType;
-
-    @OneToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL,mappedBy = "designationEntity")
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "designationEntity")
+    @JsonManagedReference
     private Set<InternEntity> internEntity;
 }

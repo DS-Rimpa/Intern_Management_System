@@ -5,6 +5,7 @@ import com.intern.test.internmanagesys.entity.StatusType;
 import com.intern.test.internmanagesys.models.CreateInternRequest;
 import com.intern.test.internmanagesys.models.InternUpdateRequest;
 import com.intern.test.internmanagesys.repository.InternRepository;
+import com.sun.jdi.request.InvalidRequestStateException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,10 +18,9 @@ public class InternService {
     private final InternRepository internRepository;
 
     @Autowired
-    public InternService(InternRepository internRepository){
-        this.internRepository=internRepository;
+    public InternService(InternRepository internRepository) {
+        this.internRepository = internRepository;
     }
-
 
 
     public List<InternEntity> addInterns(List<CreateInternRequest> interns) {
@@ -37,21 +37,20 @@ public class InternService {
         return internRepository.saveAll(collect);
 
     }
-    public List<InternEntity> getAllInterns()
-    {
+
+    public List<InternEntity> getAllInterns() {
         return internRepository.findAll();
     }
 
-    public InternEntity getInternById(Long id){
+    public InternEntity getInternById(Long id) {
         Optional<InternEntity> internOptional = internRepository.findById(id);
-        return internOptional.orElseGet(InternEntity::new);
-    }
-    public InternEntity getInternByName(String name){
-        Optional<InternEntity> internOptional = internRepository.findByName(name);
-        return internOptional.orElseGet(InternEntity::new);
+        if (!internOptional.isPresent()) throw new InvalidRequestStateException
+                (String.format("Intern with the provided id does not exist%s", id));
+        return internOptional.get();
     }
 
-    public InternEntity updateIntern(InternUpdateRequest internUpdateRequest, Long id){
+
+    public InternEntity updateIntern(InternUpdateRequest internUpdateRequest, Long id) {
 
         Optional<InternEntity> byId = internRepository.findById(id);
         InternEntity internEntity = byId.get();
@@ -63,15 +62,15 @@ public class InternService {
         internEntity.setPostalCode(internUpdateRequest.getPostalCode());
         return internRepository.save(internEntity);
     }
-    public InternEntity deleteIntern(Long id){
+
+    public void deleteIntern(Long id) {
         internRepository.deleteById(id);
-        return null;
-    }
-    public InternEntity deleteInterns(){
-        internRepository.deleteAll();
-        return null;
     }
 
+    public void deleteInterns() {
+        internRepository.deleteAll();
+
+    }
 
 
 }
