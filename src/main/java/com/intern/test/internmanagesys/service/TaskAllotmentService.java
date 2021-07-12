@@ -10,6 +10,7 @@ import com.intern.test.internmanagesys.models.ProjectUpdateRequest;
 import com.intern.test.internmanagesys.models.TaskAllotUpdateRequest;
 import com.intern.test.internmanagesys.repository.InternRepository;
 import com.intern.test.internmanagesys.repository.TaskAllotmentRepository;
+import com.sun.jdi.request.InvalidRequestStateException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
@@ -65,6 +66,8 @@ public class TaskAllotmentService {
     public TaskAllotmentEntity updateTaskAllot(TaskAllotUpdateRequest taskRequest, Long id) {
 
         Optional<TaskAllotmentEntity> byId = taskAllotmentRepository.findById(id);
+        if (!byId.isPresent()) throw new InvalidRequestStateException
+                (String.format("Intern with the provided id does not exist%s", id));
         TaskAllotmentEntity taskAllotmentEntity = byId.get();
         taskAllotmentEntity.setFeedback(taskRequest.getFeedback());
         taskAllotmentEntity.setRanking(taskRequest.getRanking());

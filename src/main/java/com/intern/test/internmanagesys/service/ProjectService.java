@@ -9,6 +9,7 @@ import com.intern.test.internmanagesys.models.InternDesignationUpdate;
 import com.intern.test.internmanagesys.models.ProjectUpdateRequest;
 import com.intern.test.internmanagesys.repository.DesignationRepository;
 import com.intern.test.internmanagesys.repository.ProjectRepository;
+import com.sun.jdi.request.InvalidRequestStateException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -41,6 +42,8 @@ public class ProjectService {
     public ProjectEntity updateProject(ProjectUpdateRequest projectRequest, Long id) {
 
         Optional<ProjectEntity> byId = projectRepository.findById(id);
+        if (!byId.isPresent()) throw new InvalidRequestStateException
+                (String.format("Intern with the provided id does not exist%s", id));
         ProjectEntity projectEntity = byId.get();
         projectEntity.setProjectName(projectRequest.getProjectName());
         return projectRepository.save(projectEntity);

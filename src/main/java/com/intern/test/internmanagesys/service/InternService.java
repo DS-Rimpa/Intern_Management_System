@@ -53,6 +53,8 @@ public class InternService {
     public InternEntity updateIntern(InternUpdateRequest internUpdateRequest, Long id) {
 
         Optional<InternEntity> byId = internRepository.findById(id);
+        if (!byId.isPresent()) throw new InvalidRequestStateException
+                (String.format("Intern with the provided id does not exist%s", id));
         InternEntity internEntity = byId.get();
 
         internEntity.setName(internUpdateRequest.getName());
