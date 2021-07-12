@@ -25,23 +25,22 @@ public class ProjectService {
     }
 
     public ProjectEntity addProjects(CreateProjectRequest createProjectRequest) {
-        ProjectEntity projectEntity=new ProjectEntity();
+        ProjectEntity projectEntity = new ProjectEntity();
         projectEntity.setProjectName(createProjectRequest.getProjectName());
         return projectRepository.save(projectEntity);
     }
 
-    public List<ProjectEntity> getAllProjects()
-    {
+    public List<ProjectEntity> getAllProjects() {
         return projectRepository.findAll();
     }
 
-    public ProjectEntity deleteProjects(){
+    public void deleteProjects() {
         projectRepository.deleteAll();
-        return null;
     }
-    public ProjectEntity updateProject(ProjectUpdateRequest projectRequest, Long projectId) {
 
-        Optional<ProjectEntity> byId = projectRepository.findById(projectId);
+    public ProjectEntity updateProject(ProjectUpdateRequest projectRequest, Long id) {
+
+        Optional<ProjectEntity> byId = projectRepository.findById(id);
         ProjectEntity projectEntity = byId.get();
         projectEntity.setProjectName(projectRequest.getProjectName());
         return projectRepository.save(projectEntity);

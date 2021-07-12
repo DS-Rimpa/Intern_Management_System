@@ -5,7 +5,6 @@ import com.intern.test.internmanagesys.models.CreateTaskAllotmentRequest;
 import com.intern.test.internmanagesys.models.TaskAllotUpdateRequest;
 import com.intern.test.internmanagesys.service.TaskAllotmentService;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -14,6 +13,8 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/v1/intern/taskAllotment")
 public class TaskAllotmentController {
+
+    //private InternRepository internRepository;
     private TaskAllotmentService taskAllotmentService;
 
     public TaskAllotmentController(TaskAllotmentService taskAllotmentService) {
@@ -21,32 +22,49 @@ public class TaskAllotmentController {
     }
 
 
-    @PostMapping()
+    @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public List<TaskAllotmentEntity> saveTaskAllotment(@Valid @RequestBody List<CreateTaskAllotmentRequest> createTaskAllotmentRequest)
-    {
+    public List<TaskAllotmentEntity> saveTaskAllotment(@Valid @RequestBody List<CreateTaskAllotmentRequest> createTaskAllotmentRequest) {
         return taskAllotmentService.addTaskAllotments(createTaskAllotmentRequest);
 
     }
-    @GetMapping()
+
+    @GetMapping
     @ResponseStatus(HttpStatus.OK)
     public List<TaskAllotmentEntity> getAllTaskAllotments() {
-        return taskAllotmentService.getAllTaskDetails();
+        return taskAllotmentService.getTaskDetails();
     }
 
-    @DeleteMapping()
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public TaskAllotmentEntity deleteAllTaskAllotments()
-    {
-        taskAllotmentService.deleteTaskAllotments();
-        return null;
-    }
-
-    @PutMapping("/{taskAllotId}")
+    @GetMapping("/pending")
     @ResponseStatus(HttpStatus.OK)
-    public TaskAllotmentEntity changeTasks(@RequestBody TaskAllotUpdateRequest allotUpdateRequest, @PathVariable Long taskAllotId){
+    public List<TaskAllotmentEntity> getAllTaskStatus() {
+        return taskAllotmentService.getPendingTasks();
+    }
 
-        return taskAllotmentService.updateTaskAllot(allotUpdateRequest,taskAllotId);
+
+    @GetMapping("/status")
+    @ResponseStatus(HttpStatus.OK)
+    public List<TaskAllotmentEntity> getIntern() {
+        return taskAllotmentService.getTaskStatus();
+    }
+
+    @GetMapping("/ranking")
+    @ResponseStatus(HttpStatus.OK)
+    public List<TaskAllotmentEntity> getRanking() {
+        return taskAllotmentService.getAvgRanking();
+    }
+
+    @DeleteMapping
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteAllTaskAllotments() {
+        taskAllotmentService.deleteTaskAllotments();
+    }
+
+    @PutMapping("/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public TaskAllotmentEntity changeTasks(@RequestBody TaskAllotUpdateRequest allotUpdateRequest, @PathVariable Long id) {
+
+        return taskAllotmentService.updateTaskAllot(allotUpdateRequest, id);
     }
 
 }

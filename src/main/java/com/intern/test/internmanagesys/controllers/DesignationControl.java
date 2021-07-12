@@ -14,36 +14,36 @@ import java.util.List;
 @RequestMapping("/api/v1/designation")
 public class DesignationControl {
 
+    private DesignationService designationService;
+
     public DesignationControl(DesignationService designationService) {
         this.designationService = designationService;
     }
-    private DesignationService designationService;
 
-
-    @PostMapping()
+    @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public DesignationEntity createDesignation(@Valid @RequestBody CreateDesignationRequest createDesignationRequest){
+    public DesignationEntity createDesignation(@Valid @RequestBody CreateDesignationRequest createDesignationRequest) {
         return designationService.addDesignation(createDesignationRequest);
 
     }
-    @GetMapping()
+
+    @GetMapping
     @ResponseStatus(HttpStatus.OK)
     public List<DesignationEntity> getAll() {
         return designationService.getAllDesignations();
     }
 
-    @PutMapping("/{designationId}")
+    @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public DesignationEntity changeDesignation(@RequestBody InternDesignationUpdate designationUpdate, @PathVariable Long designationId){
+    public DesignationEntity changeDesignation(@RequestBody InternDesignationUpdate designationUpdate, @PathVariable Long id) {
 
-        return designationService.updateDesignation(designationUpdate,designationId);
+        return designationService.updateDesignation(designationUpdate, id);
     }
 
-    @DeleteMapping()
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public DesignationEntity deleteInternsDesignation()
-    {
-        return designationService.deleteDesignations();
+    @DeleteMapping
+    @ResponseStatus(HttpStatus.OK)
+    public void deleteInternsDesignation() {
+        designationService.deleteDesignations();
     }
 
 

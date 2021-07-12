@@ -17,27 +17,26 @@ public class DesignationService {
 
     @Autowired
 
-    public DesignationService(DesignationRepository designationRepository){
-        this.designationRepository=designationRepository;
+    public DesignationService(DesignationRepository designationRepository) {
+        this.designationRepository = designationRepository;
     }
 
-    public List<DesignationEntity> getAllDesignations()
-    {
+    public List<DesignationEntity> getAllDesignations() {
         return designationRepository.findAll();
     }
 
     public DesignationEntity addDesignation(CreateDesignationRequest designationRequest) {
-        DesignationEntity designationEntity=new DesignationEntity();
+        DesignationEntity designationEntity = new DesignationEntity();
         designationEntity.setDesignationType(designationRequest.getDesignationType());
         return designationRepository.save(designationEntity);
     }
-    public DesignationEntity deleteDesignations(){
+
+    public void deleteDesignations() {
         designationRepository.deleteAll();
-        return null;
     }
 
-    public DesignationEntity updateDesignation(InternDesignationUpdate internDesignationUpdate, Long designationId){
-        Optional<DesignationEntity> byId = designationRepository.findById(designationId);
+    public DesignationEntity updateDesignation(InternDesignationUpdate internDesignationUpdate, Long id) {
+        Optional<DesignationEntity> byId = designationRepository.findById(id);
         DesignationEntity designationEntity = byId.get();
         designationEntity.setDesignationType(internDesignationUpdate.getDesignationType());
         return designationRepository.save(designationEntity);

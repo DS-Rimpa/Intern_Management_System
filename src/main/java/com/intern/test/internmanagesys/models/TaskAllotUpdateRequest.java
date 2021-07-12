@@ -15,7 +15,7 @@ import java.util.Date;
 @Data
 public class TaskAllotUpdateRequest {
     private String feedback;
-    private Byte ranking;
+    private Float ranking;
     private TaskStatus taskStatus;
     private LocalDate endDate;
 
