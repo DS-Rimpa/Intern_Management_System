@@ -66,6 +66,8 @@ public class InternService {
     }
 
     public void deleteIntern(Long id) {
+        if (!internRepository.existsById(id)) throw new InvalidRequestStateException
+                (String.format("Intern with the provided id does not exist%s", id));
         internRepository.deleteById(id);
     }
 
