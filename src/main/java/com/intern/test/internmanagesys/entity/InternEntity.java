@@ -65,6 +65,7 @@ public class InternEntity {
 
     @Enumerated(EnumType.STRING)
     private StatusType status;
+
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "designation_id")
     @JsonBackReference
